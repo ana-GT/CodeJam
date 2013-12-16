@@ -39,7 +39,6 @@ int main( int argc, char* argv[] ) {
 
     // For each test case
     for(int i = 0; i < T; ++i ) {
-      printf("Case %d \n", i+1);
       std::getline( input, line );
       std::stringstream( line ) >> M;
 
@@ -70,9 +69,6 @@ int main( int argc, char* argv[] ) {
 	
       } // end for each M pair
       
-      for( it = guys.begin(); it != guys.end(); ++it ) {
-	std::cout << it->first << " => " << it->second << '\n';
-      }
       
       if( isBipartite( endA, endB, guys.size() )  == true ) {
 	output << "Case #"<<i+1<<": Yes"<< std::endl;
@@ -112,57 +108,34 @@ bool isBipartite( const std::vector<int> &_endA,
     edges[ _endB[i] ].push_back( _endA[i] );   
   }
 
-  for( int i = 0; i < _size; ++i ) {
+  std::vector<int> queue;
+  queue.push_back( 0 );
+  tree[0] = 1;
 
-    for( int ij = 0; ij < edges[i].size(); ++ij ) {
-     
-      j = edges[i][ij];
-   
-      // i is colored
-      if( tree[i] != -1 ) {
-	
-	// if j is colored
-	if( tree[j] != -1 ) {
-	  if( tree[i] == tree[j] ) { return false; } // If same color, NO BIPARTITE
-	}
-	// If j is not colored, color it with a different color than i
-	else {
-	  if( tree[i] == 1 ) { tree[j] = 2; }
-	  else { tree[j] = 1; }
-	}
+  while( queue.size() > 0 ) {
+    int n = queue[ queue.size() - 1];
+    queue.pop_back();
 
-      }
+    for( int i = 0; i < edges[n].size(); ++i ) {
+      // If node was not colored
+      if( tree[ edges[n][i] ] == -1 ) {
+	// Add to the queue
+	queue.push_back( edges[n][i] );
+	// Color differently than the parent
+	if( tree[n] == 1 ) { tree[ edges[n][i] ] = 2; } 
+	else { tree[ edges[n][i] ] = 1; }  
 
-      // i is not colored
+      } 
+      // If it was colored, check that it makes sense
       else {
-
-	// if j is colored
-	if( tree[j] != -1 ) {
-	  if( tree[j] == 1 ) { tree[i] = 2; }
-	  else { tree[i] = 1; }
-	}
-	// if j is not colored
-	//Check if there is not yet a constraint
-	for( int k = 0; k < edges[i].size(); ++k ) {
-	  if( tree[ edges[i][k] ] == 1 ) { tree[i] = 2; tree[j] = 1; break; }
-	  else if( tree[ edges[i][k] ] == 2 ) { tree[i] = 1; tree[j] = 2; break; }
-	}
-
-	//Check if there is not yet a constraint
-	for( int k = 0; k < edges[j].size(); ++k ) {
-	  if( tree[ edges[j][k] ] == 1 ) { if( tree[j] == 1 ) { return false; } else {tree[j] = 2; tree[i] = 1; break; } }
-	  else if( tree[ edges[j][k] ] == 2 ) { if( tree[j] == 2 ) { return false; } else  { tree[j] = 1; tree[i] = 2; break; } }
-	}
-	
-	if( tree[i] == -1 && tree[j] == -1 ) { tree[i] = 1; tree[j] = 2; }
-
-
+	if( tree[n] == tree[ edges[n][i] ] ) { return false; }
       }
-
+      
+      
     }
+  } // end while
 
-  }
-
+  
   return true;
 }
   
