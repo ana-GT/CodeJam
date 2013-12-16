@@ -135,7 +135,9 @@ bool isBipartite( const std::vector<int> &_endA,
     }
   } // end while
 
-  
+  for( int i = 0; i < tree.size(); ++i ) {
+		if( tree[i] == -1 ) { std::cout << "At least one node without color!!!" << std::endl; break; }
+	}
   return true;
 }
   
