@@ -45,7 +45,7 @@ int main( int argc, char* argv[] ) {
     	std::getline( input, line ); // space between cases
 
     	result = getTableStatus( table );
-
+    	std::cout<<"Result for "<<i<<": "<<result<<std::endl;
     	output << "Case #"<<i+1<<": "<<result<<std::endl;
 
     } // End reading T cases
@@ -112,35 +112,32 @@ bool checkWinner( char row[], std::string &_result ) {
 
 
 	if( row[0] == row[1] && row[0] == row[2] && row[0] == row[3] ) {
-		if( row[0] == 'X') { _result = std::string("X won");  }
-		else if( row[0] == 'O') { _result = std::string("O won"); }
-		return true;
+		if( row[0] == 'X') { _result = std::string("X won"); return true; }
+		else if( row[0] == 'O') { _result = std::string("O won"); return true; }
+
 	}
 
 	if( row[1] == 'T' &&  row[0] == row[2] && row[0] == row[3] ) {
-		if( row[0] == 'X') { _result = std::string("X won"); }
-		else if( row[0] == 'O') { _result = std::string("O won"); }
-		return true;
+		if( row[0] == 'X') { _result = std::string("X won"); 	return true; }
+		else if( row[0] == 'O') { _result = std::string("O won"); 	return true; }
+
 	}
 
 	if( row[2] == 'T' &&  row[0] == row[1] && row[0] == row[3] ) {
-		if( row[0] == 'X') { _result = std::string("X won"); }
-		else if( row[0] == 'O') { _result = std::string("O won"); }
-		return true;
+		if( row[0] == 'X') { _result = std::string("X won"); 	return true; }
+		else if( row[0] == 'O') { _result = std::string("O won"); 	return true; }
 		}
 
 	if( row[3] == 'T' &&  row[0] == row[1] && row[0] == row[2] ) {
-		if( row[0] == 'X') { _result = std::string("X won"); }
-		else if( row[0] == 'O') { _result = std::string("O won"); }
-		return true;
+		if( row[0] == 'X') { _result = std::string("X won"); 	return true; }
+		else if( row[0] == 'O') { _result = std::string("O won"); 	return true; }
 		}
 
 	if( row[0] == 'T' &&  row[1] == row[2] && row[1] == row[3] ) {
-		if( row[1] == 'X') { _result = std::string("X won"); }
-		else if( row[1] == 'O') { _result = std::string("O won"); }
-		return true;
+		if( row[1] == 'X') { _result = std::string("X won"); 	return true; }
+		else if( row[1] == 'O') { _result = std::string("O won"); 	return true; }
 		}
 
-
+	_result = std::string( "Ridiculous" );
 	return false;
 }
